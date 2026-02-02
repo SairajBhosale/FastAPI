@@ -1,50 +1,38 @@
-# 🏥 Insurance Premium Category Predictor
+# FastAPI Machine Learning API
 
-A machine learning-powered FastAPI application that predicts insurance premium categories based on user demographics and health information.
+A RESTful API built with FastAPI for serving machine learning predictions. This project provides a simple, scalable way to deploy ML models as microservices with automatic API documentation.
 
-## 📋 Overview
+## 🚀 Features
 
-This project uses a pre-trained machine learning model to classify users into insurance premium categories (Low, Medium, High) based on factors such as age, weight, height, income, smoking status, city, and occupation.
+- **FastAPI Framework**: High-performance, modern Python web framework
+- **ML Model Integration**: Pre-trained machine learning model deployment
+- **Docker Support**: Containerized application for easy deployment
+- **Automatic Documentation**: Interactive API documentation with Swagger UI
+- **City Tier Classification**: Built-in support for city tier categorization
+- **Async Support**: Asynchronous request handling for better performance
 
-## ✨ Features
-
-- **FastAPI Backend**: High-performance API with automatic documentation
-- **ML-Powered Predictions**: Pre-trained scikit-learn model for accurate categorization
-- **Input Validation**: Robust data validation using Pydantic models
-- **Computed Fields**: Automatic calculation of BMI, lifestyle risk, age groups, and city tiers
-- **Docker Support**: Containerized deployment for easy scaling
-- **RESTful API**: Clean and intuitive endpoint design
-
-## 🛠️ Tech Stack
-
-- **Framework**: FastAPI
-- **ML Library**: scikit-learn
-- **Data Processing**: pandas
-- **Validation**: Pydantic
-- **Server**: Uvicorn
-- **Containerization**: Docker
-
-## 📁 Project Structure
+## 📋 Project Structure
 
 ```
 FastAPI/
-├── fastapp.py           # Main FastAPI application
-├── model.pkl            # Pre-trained ML model
-├── user_input.py        # Pydantic input models
-├── city_tier.py         # City tier classification
-├── predict.py           # Prediction logic
-├── requirements.txt     # Python dependencies
-└── Dockerfile          # Docker configuration
+├── fastapp.py          # Main FastAPI application
+├── predict.py          # Prediction logic and model inference
+├── user_input.py       # Input validation and data models
+├── city_tier.py        # City tier classification utilities
+├── model.pkl           # Pre-trained ML model (pickled)
+├── requirements.txt    # Python dependencies
+└── Dockerfile         # Docker configuration
 ```
 
-## 🚀 Getting Started
+## 🛠️ Prerequisites
 
-### Prerequisites
+- Python 3.8 or higher
+- pip (Python package installer)
+- Docker (optional, for containerized deployment)
 
-- Python 3.11+
-- pip or conda
+## 📦 Installation
 
-### Installation
+### Local Installation
 
 1. **Clone the repository**
    ```bash
@@ -52,16 +40,10 @@ FastAPI/
    cd FastAPI
    ```
 
-2. **Create a virtual environment**
+2. **Create a virtual environment** (recommended)
    ```bash
-   # Using venv
-   python -m venv myenv
-   
-   # Activate (Windows)
-   myenv\Scripts\Activate
-   
-   # Activate (Linux/Mac)
-   source myenv/bin/activate
+   python -m venv venv
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
    ```
 
 3. **Install dependencies**
@@ -69,131 +51,149 @@ FastAPI/
    pip install -r requirements.txt
    ```
 
+### Docker Installation
+
+1. **Build the Docker image**
+   ```bash
+   docker build -t fastapi-ml-app .
+   ```
+
+2. **Run the container**
+   ```bash
+   docker run -d -p 8000:8000 fastapi-ml-app
+   ```
+
+## 🚀 Usage
+
 ### Running the Application
 
 **Local Development:**
 ```bash
-python -m uvicorn fastapp:app --reload
+uvicorn fastapp:app --reload --host 0.0.0.0 --port 8000
 ```
 
-The API will be available at `http://127.0.0.1:8000`
-
-**Using Docker:**
+**Production:**
 ```bash
-# Build the image
-docker build -t insurance-predictor .
-
-# Run the container
-docker run -p 8000:8000 insurance-predictor
+uvicorn fastapp:app --host 0.0.0.0 --port 8000 --workers 4
 ```
 
-## 📖 API Documentation
+### Accessing the API
 
-Once running, access the interactive API documentation at:
-- **Swagger UI**: `http://127.0.0.1:8000/docs`
-- **ReDoc**: `http://127.0.0.1:8000/redoc`
+Once the application is running, you can access:
 
-### Endpoint
+- **API Endpoint**: http://localhost:8000
+- **Interactive Documentation (Swagger UI)**: http://localhost:8000/docs
+- **Alternative Documentation (ReDoc)**: http://localhost:8000/redoc
 
-#### `POST /predict`
+### Example API Request
 
-Predicts the insurance premium category for a user.
+```python
+import requests
 
-**Request Body:**
-```json
-{
-  "age": 30,
-  "weight": 70.0,
-  "height": 1.75,
-  "income_lpa": 10.0,
-  "smoker": false,
-  "city": "Pune",
-  "occupation": "private_job"
+url = "http://localhost:8000/predict"
+data = {
+    # Add your input data here based on your model requirements
 }
+
+response = requests.post(url, json=data)
+print(response.json())
 ```
 
-**Response:**
-```json
-{
-  "response": {
-    "predicted_category": "Medium",
-    "confidence": 0.95,
-    "class_probabilities": {
-      "Low": 0.1,
-      "Medium": 0.85,
-      "High": 0.05
-    }
-  }
-}
-```
-
-**Occupation Options:**
-- `retired`
-- `freelancer`
-- `student`
-- `government_job`
-- `business_owner`
-- `unemployed`
-- `private_job`
-
-## 🧮 Feature Engineering
-
-The model automatically computes:
-
-1. **BMI (Body Mass Index)**: `weight / (height²)`
-2. **Lifestyle Risk**: Based on smoking status and BMI
-   - High: Smoker + BMI > 30
-   - Medium: Smoker OR BMI > 27
-   - Low: Neither condition
-3. **Age Group**: 
-   - Young: < 25
-   - Adult: 25-44
-   - Middle-aged: 45-59
-   - Senior: 60+
-4. **City Tier**: Classifies cities into Tier 1, 2, or 3
-
-## 📊 Input Validation
-
-All inputs are validated using Pydantic:
-- Age: 1-119 years
-- Weight: > 0 kg
-- Height: 0.5-2.5 meters
-- Income: > 0 LPA
-- Smoker: Boolean
-- City: String
-- Occupation: Limited choices
-
-## 🐛 Troubleshooting
-
-### Common Issues
-
-**ModuleNotFoundError: No module named 'pandas'**
+**Using cURL:**
 ```bash
-pip install pandas scikit-learn fastapi uvicorn pydantic
+curl -X POST "http://localhost:8000/predict" \
+     -H "Content-Type: application/json" \
+     -d '{"key": "value"}'
 ```
 
-**Port already in use**
+## 📚 API Endpoints
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/` | Health check / Welcome message |
+| POST | `/predict` | Make predictions using the ML model |
+| GET | `/docs` | Interactive API documentation |
+
+## 🔧 Configuration
+
+Key configuration parameters can be adjusted in the main application file or through environment variables:
+
+- `HOST`: Server host (default: 0.0.0.0)
+- `PORT`: Server port (default: 8000)
+- `WORKERS`: Number of worker processes (production)
+- `MODEL_PATH`: Path to the trained model file
+
+## 📊 Model Information
+
+The API uses a pre-trained machine learning model stored in `model.pkl`. The model accepts structured input data and returns predictions based on the trained algorithm.
+
+### Input Schema
+
+Refer to `user_input.py` for the complete input schema and validation rules.
+
+### City Tier Classification
+
+The application includes city tier classification functionality in `city_tier.py`, which can be used for geographical segmentation and analysis.
+
+## 🧪 Testing
+
+Run tests using pytest:
+
 ```bash
-# Use a different port
-python -m uvicorn fastapp:app --port 8001
+pytest tests/
 ```
 
-**Model file not found**
-- Ensure `model.pkl` is in the same directory as `fastapp.py`
+For coverage report:
+```bash
+pytest --cov=. tests/
+```
+
+## 📈 Performance
+
+FastAPI provides excellent performance characteristics:
+- High throughput with async/await support
+- Automatic request validation
+- Efficient JSON serialization
+- Low latency response times
+
+## 🐳 Docker Deployment
+
+The included `Dockerfile` provides a production-ready container configuration. Key features:
+
+- Optimized Python base image
+- Proper dependency caching
+- Non-root user execution
+- Health check configuration
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+Contributions are welcome! Please follow these steps:
 
 1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
 3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-## 📝 License
+## 📝 Development Guidelines
 
-This project is open source and available under the [MIT License](LICENSE).
+- Follow PEP 8 style guidelines
+- Add type hints to function signatures
+- Write docstrings for all public functions
+- Include unit tests for new features
+- Update documentation as needed
+
+## 🔒 Security Considerations
+
+- Validate all input data using Pydantic models
+- Implement rate limiting for production deployments
+- Use environment variables for sensitive configuration
+- Keep dependencies up to date
+- Follow OWASP API security best practices
+
+## 📄 License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
 
 ## 👤 Author
 
@@ -202,10 +202,23 @@ This project is open source and available under the [MIT License](LICENSE).
 
 ## 🙏 Acknowledgments
 
-- FastAPI for the amazing framework
-- scikit-learn for ML capabilities
-- The open-source community
+- FastAPI framework by Sebastián Ramírez
+- Uvicorn ASGI server
+- Pydantic for data validation
+- The Python community
+
+## 📞 Support
+
+For issues, questions, or contributions, please:
+- Open an issue on GitHub
+- Contact the repository maintainer
+
+## 🔄 Version History
+
+- **v1.0.0** - Initial release with basic ML model deployment
 
 ---
 
-This README is AI generated
+**Note**: Make sure to update the model file, input schema, and prediction logic according to your specific use case before deploying to production.
+
+**This README is AI generated**
