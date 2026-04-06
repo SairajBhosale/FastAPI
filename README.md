@@ -2,7 +2,7 @@
 
 A RESTful API built with FastAPI for serving machine learning predictions. This project provides a simple, scalable way to deploy ML models as microservices with automatic API documentation.
 
-## 🚀 Features
+## Features
 
 - **FastAPI Framework**: High-performance, modern Python web framework
 - **ML Model Integration**: Pre-trained machine learning model deployment
@@ -11,7 +11,7 @@ A RESTful API built with FastAPI for serving machine learning predictions. This 
 - **City Tier Classification**: Built-in support for city tier categorization
 - **Async Support**: Asynchronous request handling for better performance
 
-## 📋 Project Structure
+## Project Structure
 
 ```
 FastAPI/
@@ -24,13 +24,13 @@ FastAPI/
 └── Dockerfile         # Docker configuration
 ```
 
-## 🛠️ Prerequisites
+## Prerequisites
 
 - Python 3.8 or higher
 - pip (Python package installer)
 - Docker (optional, for containerized deployment)
 
-## 📦 Installation
+## Installation
 
 ### Local Installation
 
@@ -63,7 +63,7 @@ FastAPI/
    docker run -d -p 8000:8000 fastapi-ml-app
    ```
 
-## 🚀 Usage
+## Usage
 
 ### Running the Application
 
@@ -106,7 +106,7 @@ curl -X POST "http://localhost:8000/predict" \
      -d '{"key": "value"}'
 ```
 
-## 📚 API Endpoints
+## API Endpoints
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
@@ -114,7 +114,7 @@ curl -X POST "http://localhost:8000/predict" \
 | POST | `/predict` | Make predictions using the ML model |
 | GET | `/docs` | Interactive API documentation |
 
-## 🔧 Configuration
+## Configuration
 
 Key configuration parameters can be adjusted in the main application file or through environment variables:
 
@@ -123,7 +123,7 @@ Key configuration parameters can be adjusted in the main application file or thr
 - `WORKERS`: Number of worker processes (production)
 - `MODEL_PATH`: Path to the trained model file
 
-## 📊 Model Information
+## Model Information
 
 The API uses a pre-trained machine learning model stored in `model.pkl`. The model accepts structured input data and returns predictions based on the trained algorithm.
 
@@ -135,7 +135,7 @@ Refer to `user_input.py` for the complete input schema and validation rules.
 
 The application includes city tier classification functionality in `city_tier.py`, which can be used for geographical segmentation and analysis.
 
-## 🧪 Testing
+## Testing
 
 Run tests using pytest:
 
@@ -148,7 +148,7 @@ For coverage report:
 pytest --cov=. tests/
 ```
 
-## 📈 Performance
+## Performance
 
 FastAPI provides excellent performance characteristics:
 - High throughput with async/await support
@@ -156,7 +156,7 @@ FastAPI provides excellent performance characteristics:
 - Efficient JSON serialization
 - Low latency response times
 
-## 🐳 Docker Deployment
+## Docker Deployment
 
 The included `Dockerfile` provides a production-ready container configuration. Key features:
 
@@ -165,7 +165,7 @@ The included `Dockerfile` provides a production-ready container configuration. K
 - Non-root user execution
 - Health check configuration
 
-## 🤝 Contributing
+## Contributing
 
 Contributions are welcome! Please follow these steps:
 
@@ -175,7 +175,7 @@ Contributions are welcome! Please follow these steps:
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-## 📝 Development Guidelines
+## Development Guidelines
 
 - Follow PEP 8 style guidelines
 - Add type hints to function signatures
@@ -183,7 +183,7 @@ Contributions are welcome! Please follow these steps:
 - Include unit tests for new features
 - Update documentation as needed
 
-## 🔒 Security Considerations
+## Security Considerations
 
 - Validate all input data using Pydantic models
 - Implement rate limiting for production deployments
@@ -191,29 +191,29 @@ Contributions are welcome! Please follow these steps:
 - Keep dependencies up to date
 - Follow OWASP API security best practices
 
-## 📄 License
+## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
 
-## 👤 Author
+## Author
 
 **Sairaj Bhosale**
 - GitHub: [@SairajBhosale](https://github.com/SairajBhosale)
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - FastAPI framework by Sebastián Ramírez
 - Uvicorn ASGI server
 - Pydantic for data validation
 - The Python community
 
-## 📞 Support
+## Support
 
 For issues, questions, or contributions, please:
 - Open an issue on GitHub
 - Contact the repository maintainer
 
-## 🔄 Version History
+## Version History
 
 - **v1.0.0** - Initial release with basic ML model deployment
 
